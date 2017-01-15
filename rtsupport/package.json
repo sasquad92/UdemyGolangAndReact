@@ -1,0 +1,35 @@
+{
+  "name": "rtsupport",
+  "version": "1.0.0",
+  "description": "project from udemy training",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sasquad92/UdemyGolangAndReact.git"
+  },
+  "keywords": [
+    "go",
+    "golang",
+    "react",
+    "reactjs",
+    "rethinkdb",
+    "db"
+  ],
+  "author": "Krzysztof Sommerrey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sasquad92/UdemyGolangAndReact/issues"
+  },
+  "homepage": "https://github.com/sasquad92/UdemyGolangAndReact#readme",
+  "devDependencies": {
+    "babel-loader": "^5.3.3",
+    "react": "^15.4.2",
+    "webpack": "^1.14.0"
+  },
+  "dependencies": {
+    "react-dom": "^15.4.2"
+  }
+}

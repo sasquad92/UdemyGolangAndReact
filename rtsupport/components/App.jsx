@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ChannelSection from './channels/ChannelSection.jsx';
 import UserSection from './users/UserSection.jsx';
+import MessageSection from './messages/MessageSection.jsx';
 
 export default class App extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ export default class App extends Component {
         this.state = {
             channels: [],
             users: [],
+            messages: [],
         };
     }
 
@@ -44,26 +46,45 @@ export default class App extends Component {
         this.setState({activeUser});
     }
 
+    addMessage(message, user) {
+        let {messages} = this.state;
+
+        messages.push(
+            {id: messages.length, message, user}
+        );
+        console.log('wszystkie wiadomości:', messages);
+    }
     
     render() {
         return (
-            <div className='app'>
-                <div class='row'>
-                    <div class='col-md-4'>
-                        <div className='nav'>
-                            <ChannelSection 
-                            {...this.state}
-                            addChannel = {this.addChannel.bind(this)}
-                            setChannel = {this.setChannel.bind(this)} />
-                        </div>
-                        <div className='nav'>
-                            <UserSection
-                            {...this.state}
-                            addUser = {this.addUser.bind(this)}
-                            setUser = {this.setUser.bind(this)} />
+            <div className='row'>
+                <div className='col-md-3'>
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            <div className='nav'>
+                                <ChannelSection 
+                                {...this.state}
+                                addChannel = {this.addChannel.bind(this)}
+                                setChannel = {this.setChannel.bind(this)} />
+                            </div>
                         </div>
                     </div>
-                    <div class='col-md-8'>
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            <div className='nav'>
+                                <UserSection
+                                {...this.state}
+                                addUser = {this.addUser.bind(this)}
+                                setUser = {this.setUser.bind(this)} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='col-md-9'>
+                    <div className='messages-container'>
+                        <MessageSection
+                        {...this.state}
+                        addMessage = {this.addMessage.bind(this)} />
                     </div>
                 </div>
             </div>

@@ -9,11 +9,11 @@ export default class Message extends Component {
         return (
             <li className='message'>
                 <div className='author'>
-                    <strong>{message.user}</strong>
+                    <strong>{message.author}</strong>
                     <i className='timestamp'>{tStamp}</i>
                 </div>
                 <div className='body'>
-                    {message.message}
+                    {message.body}
                 </div>
                 <br/>
             </li>

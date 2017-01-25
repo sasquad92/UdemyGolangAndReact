@@ -2,21 +2,10 @@ import React, {Component} from 'react';
 
 export default class User extends Component {
 
-    onClick(e) {
-        e.preventDefault();
-        const {setUser, user} = this.props;
-
-        setUser(user); 
-    }
-
     render() {
-        const {user, activeUser} = this.props;
-        const active = user === activeUser ? 'active' : '';
         return (
-            <li className={active}>
-                <a onClick={this.onClick.bind(this)}>
-                    {user.name}
-                </a>
+            <li>
+                {this.props.user.name}
             </li>
         )
     }
@@ -24,6 +13,4 @@ export default class User extends Component {
 
 User.propTypes = {
     user: React.PropTypes.object.isRequired,
-    setUser: React.PropTypes.func.isRequired,
-    activeUser: React.PropTypes.object.isRequired
 }

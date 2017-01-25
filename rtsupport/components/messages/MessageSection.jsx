@@ -8,7 +8,7 @@ export default class MessageSection extends Component {
         let channel = activeChannel !== undefined ? activeChannel.name : 'undefind channel';
         return (
             <div className='messages-container panel panel-default'>
-                <div className='panel-heading title'>
+                <div className='panel-heading'>
                     <strong>{channel}</strong>
                 </div>
                 <div className='panel-body messages'>

@@ -31,7 +31,7 @@ export default class App extends Component {
         // TODO: Get channel messages
     }
 
-    addUser(name) {
+    setUserName(name) {
         let {users} = this.state;
         users.push(
             {id: users.length, name}
@@ -42,55 +42,33 @@ export default class App extends Component {
         //TODO: send to server
     }
 
-    setUser(activeUser) {
-        this.setState({activeUser});
-    }
+    addMessage(body) {
+        let {messages, users} = this.state;
 
-    addMessage(message) {
-        let {messages} = this.state;
-
-        let user = this.state.activeUser.name;
+        let author = users.length > 0 ? users[0].name : 'anonymous';
         let tStamp = new Date;
 
         messages.push(
-            {id: messages.length, message, user, tStamp}
+            {id: messages.length, body, author, tStamp}
         );
-        console.log('wszystkie wiadomości:', messages);
         this.setState({messages});
     }
     
     render() {
         return (
-            <div className='row'>
-                <div className='col-md-3'>
-                    <div className='row'>
-                        <div className='col-md-12'>
-                            <div className='nav'>
-                                <ChannelSection 
-                                {...this.state}
-                                addChannel = {this.addChannel.bind(this)}
-                                setChannel = {this.setChannel.bind(this)} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col-md-12'>
-                            <div className='nav'>
-                                <UserSection
-                                {...this.state}
-                                addUser = {this.addUser.bind(this)}
-                                setUser = {this.setUser.bind(this)} />
-                            </div>
-                        </div>
-                    </div>
+            <div className='app'>
+                <div className='nav'>
+                    <ChannelSection 
+                    {...this.state}
+                    addChannel = {this.addChannel.bind(this)}
+                    setChannel = {this.setChannel.bind(this)} />
+                    <UserSection
+                    {...this.state}
+                    setUserName = {this.setUserName.bind(this)} />
                 </div>
-                <div className='col-md-9'>
-                    <div>
-                        <MessageSection
-                        {...this.state}
-                        addMessage = {this.addMessage.bind(this)} />
-                    </div>
-                </div>
+                <MessageSection
+                {...this.state}
+                addMessage = {this.addMessage.bind(this)} />
             </div>
         );
     }

@@ -6,7 +6,7 @@ export default class UserForm extends Component {
 
         const node = this.refs.user;
         const userName = node.value;
-        this.props.addUser(userName);
+        this.props.setUserName(userName);
         node.value = '';
     }
 
@@ -15,7 +15,7 @@ export default class UserForm extends Component {
             <form onSubmit={this.onSubmit.bind(this)}>
                 <div className='form-group'>
                     <input className='form-control'
-                    placeholder='Add User...'
+                    placeholder='Set your name...'
                     type='text'
                     ref='user'/>
                 </div>
@@ -25,5 +25,5 @@ export default class UserForm extends Component {
 }
 
 UserForm.propTypes = {
-    addUser: React.PropTypes.func.isRequired
+    setUserName: React.PropTypes.func.isRequired
 }

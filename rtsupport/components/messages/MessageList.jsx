@@ -9,7 +9,6 @@ export default class MessageList extends Component {
                 return <Message
                     message={mes}
                     key={mes.id}
-                    {...this.props}
                     />
             })
             }

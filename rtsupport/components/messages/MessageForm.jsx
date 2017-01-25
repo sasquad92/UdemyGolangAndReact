@@ -7,18 +7,26 @@ export default class MessageForm extends Component {
 
         const node = this.refs.message;
         const messageBody = node.value;
-        this.props.addMessage(messageBody, this.props.activeUser.name);
+        this.props.addMessage(messageBody);
         node.value = '';
     }
 
     render() {
-        return (
-            <form onSubmit={this.onSubmit.bind(this)}>
-                <div className='form-group'>
-                    <input className='form-control'
+        let {activeChannel} = this.props;
+        let input;
+
+        if(activeChannel !== undefined) {
+            input = (
+                <input className='form-control'
                     placeholder='Add Message...'
                     type='text'
                     ref='message'/>
+            );
+        }
+        return (
+            <form onSubmit={this.onSubmit.bind(this)}>
+                <div className='form-group'>
+                    {input}
                 </div>
             </form>
         );
@@ -27,5 +35,5 @@ export default class MessageForm extends Component {
 
 MessageForm.propTypes = {
     addMessage: React.PropTypes.func.isRequired,
-    activeUser: React.PropTypes.object.isRequired
+    activeChannel: React.PropTypes.object.isRequired
 }

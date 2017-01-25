@@ -26,6 +26,7 @@
   "homepage": "https://github.com/sasquad92/UdemyGolangAndReact#readme",
   "devDependencies": {
     "babel-loader": "^5.3.3",
+    "fecha": "^2.3.0",
     "react": "^15.4.2",
     "webpack": "^1.14.0"
   },

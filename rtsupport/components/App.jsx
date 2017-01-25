@@ -46,13 +46,17 @@ export default class App extends Component {
         this.setState({activeUser});
     }
 
-    addMessage(message, user) {
+    addMessage(message) {
         let {messages} = this.state;
 
+        let user = this.state.activeUser.name;
+        let tStamp = new Date;
+
         messages.push(
-            {id: messages.length, message, user}
+            {id: messages.length, message, user, tStamp}
         );
         console.log('wszystkie wiadomości:', messages);
+        this.setState({messages});
     }
     
     render() {
@@ -81,7 +85,7 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div className='col-md-9'>
-                    <div className='messages-container'>
+                    <div>
                         <MessageSection
                         {...this.state}
                         addMessage = {this.addMessage.bind(this)} />

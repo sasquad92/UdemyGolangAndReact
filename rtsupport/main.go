@@ -1,48 +1,38 @@
 package main
 
-import (
-	"fmt"
-	"github.com/gorilla/websocket"
-	"net/http"
-)
+import "net/http"
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-	CheckOrigin:     func(r *http.Request) bool { return true },
+type Channel struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 func main() {
-	http.HandleFunc("/", handler)
+	router := NewRouter()
+
+	router.Handle("channel add", addChannel)
+
+	http.Handle("/", router)
 	http.ListenAndServe(":4000", nil)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	socket, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+/* hot to test:
+jsbin.com
 
-	for {
-		msgType, msg, err := socket.ReadMessage()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
+let ws = new WebSocket('ws://localhost:4000');
+let message = {
+  name: 'channel add',
+  data: {
+    name: 'Hardware Support',
+  }
+};
 
-		fmt.Println(string(msg))
-
-		if err = socket.WriteMessage(msgType, msg); err != nil {
-			fmt.Println(err)
-			return
-		}
-	}
+ws.onopen = () => {
+  ws.send(JSON.stringify(message));
 }
 
-/*
-test:
-http://websocket.org/echo.html
+ws.onmessage = (e) => {
+  console.log(JSON.parse(e.data));
+}
 
-ws://localhost:4000
 */

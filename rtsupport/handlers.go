@@ -1,21 +1,68 @@
 package main
 
 import (
-	"fmt"
-
+	r "github.com/dancannon/gorethink"
 	"github.com/mitchellh/mapstructure"
+)
+
+// enum
+const (
+	ChannelStop = iota
+	UserStop
+	MessageStop
 )
 
 func addChannel(client *Client, data interface{}) {
 	var channel Channel
-	var message Message
-	mapstructure.Decode(data, &channel)
-	fmt.Printf("%#v\n", channel)
+	err := mapstructure.Decode(data, &channel)
 
-	//TODO: insert into rethinkDB
+	if err != nil {
+		client.send <- Message{"error", err.Error()}
+		return
+	}
 
-	channel.Id = "Test from Go"
-	message.Name = "channel add"
-	message.Data = channel
-	client.send <- message
+	go func() {
+		err = r.Table("channel").
+			Insert(channel).
+			Exec(client.session)
+
+		if err != nil {
+			client.send <- Message{"error", err.Error()}
+		}
+	}()
+}
+
+func subscribeChannel(client *Client, data interface{}) {
+	stop := client.NewStopChannel(ChannelStop)
+	result := make(chan r.ChangeResponse)
+
+	cursor, err := r.Table("channel").
+		Changes(r.ChangesOpts{IncludeInitial: true}).
+		Run(client.session)
+
+	if err != nil {
+		client.send <- Message{"error", err.Error()}
+		return
+	}
+
+	go func() {
+		var change r.ChangeResponse
+		for cursor.Next(&change) {
+			result <- change
+		}
+	}()
+
+	go func() {
+		for {
+			select {
+			case <-stop:
+				cursor.Close()
+				return
+			case change := <-result:
+				if change.NewValue != nil && change.OldValue == nil {
+					client.send <- Message{"channel add", change.NewValue}
+				}
+			}
+		}
+	}()
 }

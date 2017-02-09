@@ -5,7 +5,7 @@ export default class Message extends Component {
 
     render() {
         const {message} = this.props;
-        const tStamp = fecha.format(message.tStamp, 'HH:mm:ss DD/MM/YYYY');
+        const tStamp = fecha.format(new Date(message.createdAt), 'HH:mm:ss DD/MM/YYYY');
         return (
             <li className='message'>
                 <div className='author'>

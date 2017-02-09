@@ -21639,7 +21639,8 @@
 	    _createClass(App, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var socket = this.socket = new _socketJs2['default']();
+	            var ws = new WebSocket('ws://localhost:4000');
+	            var socket = this.socket = new _socketJs2['default'](ws);
 	            socket.on('connect', this.onConnect.bind(this));
 	            socket.on('disconnect', this.onDisconnect.bind(this));
 	            socket.on('channel add', this.onAddChannel.bind(this));
